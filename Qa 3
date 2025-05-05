@@ -1,0 +1,14 @@
+def water_jug_problem(capacity_a, capacity_b, target):
+    state = set()
+    queue = [(0, 0)]
+    while queue:
+        a, b = queue.pop(0)
+        if (a, b) == target:
+            return True
+        if (a, b) in state:
+            continue
+        state.add((a, b))
+        queue.extend([(0, b), (a, 0), (capacity_a, b), (a, capacity_b), (a - min(a, capacity_b - b), b + min(a, capacity_b - b)), (a + min(b, capacity_a - a), b - min(b, capacity_a - a))])
+    return False
+
+print(water_jug_problem(4, 3, (2, 0)))  # Example: Target (2, 0) with jugs of capacity 4 and 3
