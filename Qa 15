@@ -1,0 +1,10 @@
+from sklearn import tree
+
+# Sample data for classification
+X = [[0, 0], [1, 1], [0, 1], [1, 0]]
+y = [0, 1, 1, 0]
+
+clf = tree.DecisionTreeClassifier()
+clf = clf.fit(X, y)
+
+print(clf.predict([[1, 1]]))  # Output will be [1] (class 1)
