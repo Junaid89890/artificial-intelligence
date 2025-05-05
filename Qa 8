@@ -1,0 +1,12 @@
+def dfs(graph, start):
+    visited = set()
+
+    def dfs_recursive(node):
+        if node not in visited:
+            visited.add(node)
+            for neighbor in graph[node]:
+                dfs_recursive(neighbor)
+    dfs_recursive(start)
+    return visited
+
+print(dfs(graph, 'A'))
