@@ -1,0 +1,46 @@
+import heapq
+
+class Puzzle:
+    def __init__(self, state, path='', cost=0):
+        self.state = state
+        self.path = path
+        self.cost = cost
+
+    def __lt__(self, other):
+        return self.cost < other.cost
+
+    def move(self, direction):
+        new_state = list(self.state)
+        idx = new_state.index(0)
+        if direction == 'up' and idx > 2:
+            new_state[idx], new_state[idx-3] = new_state[idx-3], new_state[idx]
+        elif direction == 'down' and idx < 6:
+            new_state[idx], new_state[idx+3] = new_state[idx+3], new_state[idx]
+        elif direction == 'left' and idx % 3 > 0:
+            new_state[idx], new_state[idx-1] = new_state[idx-1], new_state[idx]
+        elif direction == 'right' and idx % 3 < 2:
+            new_state[idx], new_state[idx+1] = new_state[idx+1], new_state[idx]
+        return tuple(new_state)
+
+    def get_neighbors(self):
+        directions = ['up', 'down', 'left', 'right']
+        return [self.move(direction) for direction in directions]
+
+def a_star_search(initial_state):
+    initial_state = tuple(initial_state)
+    goal_state = (1, 2, 3, 4, 5, 6, 7, 8, 0)
+    frontier = [Puzzle(initial_state)]
+    explored = set()
+
+    while frontier:
+        puzzle = heapq.heappop(frontier)
+        if puzzle.state == goal_state:
+            return puzzle.path
+        explored.add(puzzle.state)
+        for neighbor in puzzle.get_neighbors():
+            if neighbor not in explored:
+                heapq.heappush(frontier, Puzzle(neighbor, puzzle.path + str(neighbor), puzzle.cost + 1))
+    return None
+
+initial_state = [1, 2, 3, 4, 5, 6, 7, 8, 0]
+print(a_star_search(initial_state))
