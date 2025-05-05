@@ -1,0 +1,22 @@
+from itertools import permutations
+
+def tsp(distances):
+    n = len(distances)
+    shortest_path = None
+    shortest_distance = float('inf')
+
+    for perm in permutations(range(n)):
+        distance = sum(distances[perm[i]][perm[i+1]] for i in range(n-1)) + distances[perm[-1]][perm[0]]
+        if distance < shortest_distance:
+            shortest_distance = distance
+            shortest_path = perm
+    return shortest_path, shortest_distance
+
+distances = [
+    [0, 10, 15, 20],
+    [10, 0, 35, 25],
+    [15, 35, 0, 30],
+    [20, 25, 30, 0]
+]
+
+print(tsp(distances))
