@@ -1,0 +1,15 @@
+def vacuum_cleaner():
+    grid = ['dirty', 'clean', 'dirty']
+    moves = ['left', 'right']
+    position = 0
+    steps = 0
+
+    while 'dirty' in grid:
+        if grid[position] == 'dirty':
+            grid[position] = 'clean'
+            steps += 1
+        position = (position + 1) % len(grid)
+        steps += 1
+    return steps
+
+print(vacuum_cleaner())
