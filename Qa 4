@@ -1,0 +1,14 @@
+from itertools import permutations
+
+def solve_cryptarithmetic():
+    letters = 'SENDMONEY'
+    digits = permutations(range(10), len(letters))
+    for perm in digits:
+        letter_to_digit = dict(zip(letters, perm))
+        send = int(''.join(str(letter_to_digit[char]) for char in 'SEND'))
+        money = int(''.join(str(letter_to_digit[char]) for char in 'MONEY'))
+        if send + send == money:
+            return letter_to_digit
+    return None
+
+print(solve_cryptarithmetic())
