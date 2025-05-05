@@ -1,0 +1,44 @@
+from collections import deque
+
+def is_safe(left_m, left_c, right_m, right_c):
+    return (left_m == 0 or left_m >= left_c) and (right_m == 0 or right_m >= right_c)
+
+def missionaries_and_cannibals():
+    initial_state = (3, 3, 0, 0, 'left')  # (left_m, left_c, right_m, right_c, boat_side)
+    goal_state = (0, 0, 3, 3, 'right')
+    queue = deque([initial_state])
+    visited = set()
+    visited.add(initial_state)
+    moves = []
+
+    while queue:
+        state = queue.popleft()
+        if state == goal_state:
+            return moves
+
+        left_m, left_c, right_m, right_c, boat_side = state
+        if boat_side == 'left':
+            next_states = [
+                (left_m - 2, left_c, right_m + 2, right_c, 'right'),
+                (left_m - 1, left_c - 1, right_m + 1, right_c + 1, 'right'),
+                (left_m - 1, left_c, right_m + 1, right_c, 'right'),
+                (left_m, left_c - 2, right_m, right_c + 2, 'right'),
+                (left_m, left_c - 1, right_m, right_c + 1, 'right')
+            ]
+        else:
+            next_states = [
+                (left_m + 2, left_c, right_m - 2, right_c, 'left'),
+                (left_m + 1, left_c + 1, right_m - 1, right_c - 1, 'left'),
+                (left_m + 1, left_c, right_m - 1, right_c, 'left'),
+                (left_m, left_c + 2, right_m, right_c - 2, 'left'),
+                (left_m, left_c + 1, right_m, right_c - 1, 'left')
+            ]
+
+        for next_state in next_states:
+            if is_safe(*next_state[:4]) and next_state not in visited:
+                queue.append(next_state)
+                visited.add(next_state)
+                moves.append(next_state)
+    return None
+
+print(missionaries_and_cannibals())
